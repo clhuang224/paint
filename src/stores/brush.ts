@@ -12,9 +12,7 @@ export const MAX_BRUSH_SIZE = 50
 export const DEFAULT_BRUSH_SIZE = 10
 export const DEFAULT_BRUSH_COLOR = '#000000'
 
-const existingBrush = Alpine.store('brush') as BrushStore | undefined
-
-if (!existingBrush) {
+export const initBrushStore = () => {
     Alpine.store('brush', {
         MIN_SIZE: MIN_BRUSH_SIZE,
         MAX_SIZE: MAX_BRUSH_SIZE,

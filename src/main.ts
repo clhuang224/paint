@@ -1,6 +1,8 @@
 import Alpine from 'alpinejs'
 import type { PaintApp } from './interfaces/PaintApp'
-import { getBrush } from './stores/brush'
+import { getBrush, initBrushStore } from './stores/brush'
+
+initBrushStore()
 
 Alpine.data('paintApp', (): PaintApp => ({
     canvas: null,
