@@ -3,7 +3,7 @@ import Alpine from 'alpinejs'
 globalThis.Alpine = Alpine
 
 Alpine.data('paintApp', () => ({
-    size: '10px',
+    size: 10,
     color: '#000000',
     startDrawing(event) {
         // TODO: implement dragging logic

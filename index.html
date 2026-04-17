@@ -6,8 +6,8 @@
 </head>
 <body>
     <div
-      class="app"
-      x-data="paintApp()"
+        class="app"
+        x-data="paintApp()"
     >
         <header>
             <button class="export" @click="exportImage()">Export</button>
@@ -24,8 +24,16 @@
             ></canvas>
         </main>
         <footer>
-            <input class="size" type="text" name="size" x-model="size">
-            <input class="color" type="text" name="color" x-model="color">
+            <input
+                x-model="size"
+                type="range"
+                min="1"
+                max="50"
+            >
+            <input
+                x-model="color"
+                type="color"
+            >
         </footer>
     </div>
     <script type="module" src="./main.js"></script>
