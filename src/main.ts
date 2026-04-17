@@ -1,8 +1,7 @@
 import Alpine from 'alpinejs'
+import type { PaintApp } from './interfaces/PaintApp'
 
-globalThis.Alpine = Alpine
-
-Alpine.data('paintApp', () => ({
+Alpine.data('paintApp', (): PaintApp => ({
     size: 10,
     color: '#000000',
     canvas: null,
@@ -15,15 +14,18 @@ Alpine.data('paintApp', () => ({
         this.syncCanvasSize()
     },
     syncCanvasSize() {
+        if (!this.canvas) return
+
         const rect = this.canvas.getBoundingClientRect()
         const dpr = window.devicePixelRatio || 1
         this.canvas.width = Math.round(rect.width * dpr)
         this.canvas.height = Math.round(rect.height * dpr)
         this.ctx = this.canvas.getContext('2d')
+        if (!this.ctx) return
         this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     },
     startDrawing(event) {
-        if (!this.ctx) return
+        if (!this.ctx || !this.canvas) return
         this.isDrawing = true
         const { x, y } = this.getPointerPosition(event)
         this.lastX = x
@@ -31,7 +33,8 @@ Alpine.data('paintApp', () => ({
         this.drawPoint(x, y)
     },
     draw(event) {
-        if (!this.isDrawing || !this.ctx) return
+        if (!this.isDrawing || !this.ctx || !this.canvas) return
+        if (this.lastX === null || this.lastY === null) return
 
         const { x, y } = this.getPointerPosition(event)
         const brushSize = Number(this.size)
@@ -52,6 +55,7 @@ Alpine.data('paintApp', () => ({
         this.lastY = null
     },
     getPointerPosition(event) {
+        if (!this.canvas) return { x: 0, y: 0 }
         const rect = this.canvas.getBoundingClientRect()
         return {
             x: event.clientX - rect.left,
@@ -59,6 +63,7 @@ Alpine.data('paintApp', () => ({
         }
     },
     drawPoint(x, y) {
+        if (!this.ctx) return
         this.ctx.fillStyle = this.color
         this.ctx.beginPath()
         this.ctx.arc(x, y, Number(this.size) / 2, 0, Math.PI * 2)
