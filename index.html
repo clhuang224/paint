@@ -8,7 +8,6 @@
     <div
         class="app"
         x-data="paintApp()"
-        x-init="canvas = $refs.canvas"
     >
         <header>
             <button class="export" @click="exportImage()">Export</button>
@@ -19,7 +18,7 @@
         <main>
             <canvas
                 x-ref="canvas"
-                @pointerdown="startDrawing()"
+                @pointerdown="startDrawing($event)"
                 @pointermove="draw($event)"
                 @pointerup="stopDrawing()"
                 @pointerleave="stopDrawing()"
