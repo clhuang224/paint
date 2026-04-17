@@ -1,6 +1,6 @@
 # Paint
 
-A minimalistic painting application built with HTML5 Canvas and JavaScript.
+A minimalistic painting application built with HTML5 Canvas and Alpine.js.
 
 ## Features
 
@@ -12,7 +12,7 @@ A minimalistic painting application built with HTML5 Canvas and JavaScript.
 ## Tech Stack
 
 - HTML5 Canvas
-- JavaScript
+- TypeScript
 - Alpine.js
 
 ## Usage
