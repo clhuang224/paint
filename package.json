@@ -1,6 +1,10 @@
 {
     "name": "paint",
     "private": "true",
+    "scripts": {
+        "dev": "bun --hot index.html",
+        "build": "bun build index.html --outdir dist"
+    },
     "dependencies": {
         "alpinejs": "^3.13.10"
     }
