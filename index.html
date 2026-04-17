@@ -1,0 +1,30 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./main.css">
+    <title>Paint</title>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+</head>
+<body>
+    <div x-data="{ size: '10px', color: '#000000' }">
+        <header>
+            <button class="export" @click="exportImage()">Export</button>
+            <button class="clear" @click="clearCanvas()">Clear</button>
+            <button class="undo" @click="undoAction()">Undo</button>
+            <button class="redo" @click="redoAction()">Redo</button>
+        </header>
+        <main>
+            <canvas
+                @pointerdown="startDrawing($event)"
+                @pointermove="draw($event)"
+                @pointerup="stopDrawing()"
+                @pointerleave="stopDrawing()"
+            ></canvas>
+        </main>
+        <footer>
+            <input class="size" type="text" name="size" x-model="size">
+            <input class="color" type="text" name="color" x-model="color">
+        </footer>
+    </div>
+    <script src="./main.js"></script>
+</body>
