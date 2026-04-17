@@ -5,7 +5,10 @@
     <title>Paint</title>
 </head>
 <body>
-    <div x-data="{ size: '10px', color: '#000000' }">
+    <div
+      class="app"
+      x-data="{ size: '10px', color: '#000000' }"
+    >
         <header>
             <button class="export" @click="exportImage()">Export</button>
             <button class="clear" @click="clearCanvas()">Clear</button>
