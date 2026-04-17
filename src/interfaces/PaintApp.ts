@@ -1,8 +1,6 @@
 import type { Point } from './Point'
 
 export interface PaintApp {
-    size: number
-    color: string
     canvas: HTMLCanvasElement | null
     ctx: CanvasRenderingContext2D | null
     isDrawing: boolean

@@ -1,9 +1,8 @@
 import Alpine from 'alpinejs'
 import type { PaintApp } from './interfaces/PaintApp'
+import { getBrush } from './stores/brush'
 
 Alpine.data('paintApp', (): PaintApp => ({
-    size: 10,
-    color: '#000000',
     canvas: null,
     ctx: null,
     isDrawing: false,
@@ -37,9 +36,9 @@ Alpine.data('paintApp', (): PaintApp => ({
         if (this.lastX === null || this.lastY === null) return
 
         const { x, y } = this.getPointerPosition(event)
-        const brushSize = Number(this.size)
-        this.ctx.strokeStyle = this.color
-        this.ctx.lineWidth = brushSize
+        const { color, size } = getBrush()
+        this.ctx.strokeStyle = color
+        this.ctx.lineWidth = size
         this.ctx.lineCap = 'round'
         this.ctx.lineJoin = 'round'
         this.ctx.beginPath()
@@ -64,9 +63,10 @@ Alpine.data('paintApp', (): PaintApp => ({
     },
     drawPoint(x, y) {
         if (!this.ctx) return
-        this.ctx.fillStyle = this.color
+        const { color, size } = getBrush()
+        this.ctx.fillStyle = color
         this.ctx.beginPath()
-        this.ctx.arc(x, y, Number(this.size) / 2, 0, Math.PI * 2)
+        this.ctx.arc(x, y, size / 2, 0, Math.PI * 2)
         this.ctx.fill()
     },
     exportImage() {

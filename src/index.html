@@ -26,13 +26,13 @@
         </main>
         <footer>
             <input
-                x-model="size"
+                x-model.number="$store.brush.size"
                 type="range"
-                min="1"
-                max="50"
+                min="$store.brush.MIN_SIZE"
+                max="$store.brush.MAX_SIZE"
             >
             <input
-                x-model="color"
+                x-model="$store.brush.color"
                 type="color"
             >
         </footer>
