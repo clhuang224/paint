@@ -1,8 +1,11 @@
 import Alpine from 'alpinejs'
 import type { PaintApp } from './interfaces/PaintApp'
 import { getBrush, initBrushStore } from './stores/brush'
+import { getHistory, initHistoryStore } from './stores/history'
+import { formatDate } from './utils/formatDate'
 
 initBrushStore()
+initHistoryStore()
 
 Alpine.data('paintApp', (): PaintApp => ({
     canvas: null,
@@ -13,6 +16,7 @@ Alpine.data('paintApp', (): PaintApp => ({
     init() {
         this.canvas = this.$refs.canvas
         this.syncCanvasSize()
+        this.captureSnapshot()
     },
     syncCanvasSize() {
         if (!this.canvas) return
@@ -51,6 +55,7 @@ Alpine.data('paintApp', (): PaintApp => ({
         this.lastY = y
     },
     stopDrawing() {
+        if (this.isDrawing) this.captureSnapshot()
         this.isDrawing = false
         this.lastX = null
         this.lastY = null
@@ -71,17 +76,42 @@ Alpine.data('paintApp', (): PaintApp => ({
         this.ctx.arc(x, y, size / 2, 0, Math.PI * 2)
         this.ctx.fill()
     },
+    captureSnapshot() {
+        if (!this.ctx || !this.canvas) return
+
+        const history = getHistory()
+        const snapshot = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
+        history.push(snapshot)
+    },
+    restoreSnapshot(snapshot) {
+        if (!this.ctx || !this.canvas) return
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.ctx.putImageData(snapshot, 0, 0)
+    },
     exportImage() {
-        // TODO
+        if (!this.canvas) return
+
+        const link = document.createElement('a')
+        link.download = `paint-${formatDate(new Date())}.png`
+        link.href = this.canvas.toDataURL('image/png')
+        link.click()
     },
     clearCanvas() {
-        // TODO
+        if (!this.ctx || !this.canvas) return
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.captureSnapshot()
     },
     undoAction() {
-        // TODO
+        const history = getHistory()
+        const snapshot = history.undo()
+        if (!snapshot) return
+        this.restoreSnapshot(snapshot)
     },
     redoAction() {
-        // TODO
+        const history = getHistory()
+        const snapshot = history.redo()
+        if (!snapshot) return
+        this.restoreSnapshot(snapshot)
     },
 }))
 

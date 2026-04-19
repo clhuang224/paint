@@ -13,6 +13,8 @@ export interface PaintApp {
     stopDrawing(this: PaintApp): void
     getPointerPosition(this: PaintApp, event: PointerEvent): Point
     drawPoint(this: PaintApp, x: number, y: number): void
+    captureSnapshot(this: PaintApp): void
+    restoreSnapshot(this: PaintApp, snapshot: ImageData): void
     exportImage(this: PaintApp): void
     clearCanvas(this: PaintApp): void
     undoAction(this: PaintApp): void
